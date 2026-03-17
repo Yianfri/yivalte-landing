@@ -1,0 +1,9 @@
+﻿<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1500" fill="#11151D"/>
+  <rect x="60" y="60" width="1080" height="1380" rx="42" fill="#1A2230"/>
+  <rect x="120" y="180" width="960" height="900" rx="24" fill="#0F1115"/>
+  <circle cx="940" cy="320" r="170" fill="#1FB6FF" fill-opacity="0.2"/>
+  <text x="160" y="1180" fill="#F5F7FA" font-family="Arial, sans-serif" font-size="72" font-weight="700">Yivalte</text>
+  <text x="160" y="1260" fill="#AAB3C2" font-family="Arial, sans-serif" font-size="42">Mock de ejemplo DTF</text>
+</svg>
+
