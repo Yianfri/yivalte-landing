@@ -1,0 +1,86 @@
+﻿@import "tailwindcss";
+
+:root {
+  --bg: #0f1115;
+  --surface: #171a21;
+  --text-primary: #f5f7fa;
+  --text-soft: #c3ccda;
+  --text-muted: #8f99aa;
+  --accent: #1fb6ff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(50rem 25rem at 90% -10%, rgba(31, 182, 255, 0.12), transparent 60%),
+    radial-gradient(40rem 20rem at 0% 100%, rgba(255, 255, 255, 0.05), transparent 60%),
+    var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  section[id] {
+    scroll-margin-top: 8rem;
+  }
+
+  ::selection {
+    background: rgba(31, 182, 255, 0.3);
+    color: var(--text-primary);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .skip-link {
+    @apply absolute left-4 top-2 z-[60] -translate-y-14 rounded-md bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-[#081018] transition focus:translate-y-0;
+  }
+
+  .section-space {
+    @apply py-14 sm:py-20;
+  }
+
+  .section-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--text-muted)];
+  }
+
+  .section-title {
+    @apply mt-3 max-w-3xl [font-family:var(--font-heading)] text-3xl font-semibold leading-tight sm:text-4xl;
+  }
+
+  .section-copy {
+    @apply mt-4 max-w-2xl text-sm leading-relaxed text-[color:var(--text-soft)] sm:text-base;
+  }
+
+  .surface-card {
+    @apply rounded-2xl border border-white/10 bg-white/5 p-5 transition duration-200;
+  }
+
+  .surface-card:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .cta-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold text-[#081018] shadow-[0_8px_30px_rgba(31,182,255,0.25)] transition hover:brightness-110;
+  }
+
+  .cta-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-[color:var(--text-primary)] transition hover:bg-white/5;
+  }
+}
