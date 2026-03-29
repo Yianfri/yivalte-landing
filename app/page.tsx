@@ -10,44 +10,57 @@ import { SiteHeader } from "@/components/landing/site-header";
 import { TrustSection } from "@/components/landing/trust-section";
 import { landingContent } from "@/data/landing-content";
 
-function buildWhatsAppLink() {
-  const rawNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
-  const sanitizedNumber = rawNumber.replace(/\D/g, "");
+const DEFAULT_WHATSAPP_MESSAGE =
+  "Hola Yivalte, quiero cotizar poleras personalizadas. Te comparto los detalles de mi pedido.";
 
-  if (!sanitizedNumber) {
-    return null;
+function buildWhatsAppConfig() {
+  const rawNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
+  const whatsappNumber = rawNumber.replace(/\D/g, "");
+  const message =
+    process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE?.trim() || DEFAULT_WHATSAPP_MESSAGE;
+
+  if (!whatsappNumber) {
+    return {
+      whatsappNumber: "",
+      defaultMessage: message,
+      ctaHref: null,
+    };
   }
 
-  const defaultMessage =
-    "Hola Yivalte, quiero cotizar poleras personalizadas. Te comparto los detalles de mi pedido.";
-  const message = process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE?.trim() || defaultMessage;
-
-  return `https://wa.me/${sanitizedNumber}?text=${encodeURIComponent(message)}`;
+  return {
+    whatsappNumber,
+    defaultMessage: message,
+    ctaHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+  };
 }
 
 export default function HomePage() {
-  const whatsappHref = buildWhatsAppLink();
+  const { whatsappNumber, defaultMessage, ctaHref } = buildWhatsAppConfig();
 
-  const primaryCta = whatsappHref
-    ? { ...landingContent.hero.primaryCta, href: whatsappHref, label: "Cotizar por WhatsApp" }
+  const primaryCta = ctaHref
+    ? { ...landingContent.hero.primaryCta, href: ctaHref, label: "Cotizar por WhatsApp" }
     : landingContent.hero.primaryCta;
 
-  const pricingContent = whatsappHref
+  const pricingContent = ctaHref
     ? {
         ...landingContent.pricing,
-        cta: { ...landingContent.pricing.cta, href: whatsappHref },
+        cta: { ...landingContent.pricing.cta, href: ctaHref },
       }
     : landingContent.pricing;
 
-  const contactContent = whatsappHref
+  const contactContent = ctaHref
     ? {
         ...landingContent.contact,
-        buttonHref: whatsappHref,
-        buttonLabel: "Abrir WhatsApp para cotizar",
+        buttonHref: ctaHref,
+        buttonLabel: "Abrir WhatsApp directo",
         helperText:
-          "Te redirigimos a WhatsApp con un mensaje sugerido. Puedes editarlo antes de enviar.",
+          "Tambien puedes abrir WhatsApp directo con un mensaje sugerido.",
       }
-    : landingContent.contact;
+    : {
+        ...landingContent.contact,
+        helperText:
+          "Configura NEXT_PUBLIC_WHATSAPP_NUMBER para activar el envio de cotizaciones por formulario.",
+      };
 
   return (
     <div className="min-h-screen pb-20 sm:pb-0">
@@ -68,7 +81,11 @@ export default function HomePage() {
         <PricingSection content={pricingContent} />
         <TrustSection points={landingContent.trust} />
         <FaqSection items={landingContent.faq} />
-        <ContactSection content={contactContent} />
+        <ContactSection
+          content={contactContent}
+          whatsappNumber={whatsappNumber}
+          defaultMessage={defaultMessage}
+        />
       </main>
 
       <FooterSection

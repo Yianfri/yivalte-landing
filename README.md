@@ -40,7 +40,7 @@ npm run dev -- -p 3001
 ## Configurar WhatsApp (sin hardcode)
 
 1. Copia `.env.example` a `.env.local`.
-2. Configura tu numero de WhatsApp Business en formato internacional (solo digitos).
+2. Configura tu numero de WhatsApp en formato internacional (solo digitos).
 3. Ajusta el mensaje prellenado.
 
 Ejemplo:
@@ -52,8 +52,24 @@ NEXT_PUBLIC_WHATSAPP_MESSAGE=Hola Yivalte, quiero cotizar poleras personalizadas
 
 Comportamiento:
 
-- Con `NEXT_PUBLIC_WHATSAPP_NUMBER`: CTA abre `wa.me` con mensaje prellenado.
-- Sin `NEXT_PUBLIC_WHATSAPP_NUMBER`: CTA usa fallback interno a `#contacto`.
+- Con `NEXT_PUBLIC_WHATSAPP_NUMBER`:
+  - CTA principal abre `wa.me`.
+  - El formulario de contacto arma y abre el mensaje con los datos del cliente.
+- Sin `NEXT_PUBLIC_WHATSAPP_NUMBER`:
+  - CTA usa fallback interno a `#contacto`.
+  - El formulario avisa que falta configurar WhatsApp.
+
+## Variables en Vercel
+
+En `Project Settings > Environment Variables` agrega:
+
+- `NEXT_PUBLIC_WHATSAPP_NUMBER`
+  - Valor: tu numero en formato internacional sin `+`, sin espacios, sin guiones.
+  - Ejemplo Chile: `56912345678`
+- `NEXT_PUBLIC_WHATSAPP_MESSAGE`
+  - Valor recomendado: `Hola Yivalte, quiero cotizar poleras personalizadas.`
+
+Luego haz redeploy para aplicar cambios.
 
 ## Scripts utiles
 
@@ -80,6 +96,7 @@ components/landing/
   trust-section.tsx
   faq-section.tsx
   contact-section.tsx
+  contact-form.tsx
   mobile-cta.tsx
   footer-section.tsx
 data/

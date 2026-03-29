@@ -1,14 +1,21 @@
-﻿import type { ContactContent } from "@/types/landing";
+﻿import { ContactForm } from "@/components/landing/contact-form";
+import type { ContactContent } from "@/types/landing";
 
 interface ContactSectionProps {
   content: ContactContent;
+  whatsappNumber: string;
+  defaultMessage: string;
 }
 
 function isExternalLink(href: string) {
   return href.startsWith("http://") || href.startsWith("https://");
 }
 
-export function ContactSection({ content }: ContactSectionProps) {
+export function ContactSection({
+  content,
+  whatsappNumber,
+  defaultMessage,
+}: ContactSectionProps) {
   const externalCta = isExternalLink(content.buttonHref);
 
   return (
@@ -20,21 +27,28 @@ export function ContactSection({ content }: ContactSectionProps) {
             <h2 className="section-title">{content.title}</h2>
             <p className="section-copy">{content.description}</p>
 
-            <div className="mt-8">
-              <a
-                href={content.buttonHref}
-                className="cta-primary"
-                target={externalCta ? "_blank" : undefined}
-                rel={externalCta ? "noopener noreferrer" : undefined}
-              >
-                {content.buttonLabel}
-              </a>
-              <p className="mt-3 text-xs text-[color:var(--text-muted)]">
-                {content.helperText}
-              </p>
-              <p className="mt-2 text-xs text-[color:var(--text-muted)]">
-                {content.responseTimeNote}
-              </p>
+            <div className="mt-8 space-y-4">
+              <ContactForm
+                whatsappNumber={whatsappNumber}
+                defaultMessage={defaultMessage}
+              />
+
+              <div>
+                <a
+                  href={content.buttonHref}
+                  className="cta-secondary"
+                  target={externalCta ? "_blank" : undefined}
+                  rel={externalCta ? "noopener noreferrer" : undefined}
+                >
+                  {content.buttonLabel}
+                </a>
+                <p className="mt-3 text-xs text-[color:var(--text-muted)]">
+                  {content.helperText}
+                </p>
+                <p className="mt-2 text-xs text-[color:var(--text-muted)]">
+                  {content.responseTimeNote}
+                </p>
+              </div>
             </div>
           </div>
 
