@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# Yivalte Landing
 
-## Getting Started
+Landing page one-page para Yivalte, enfocada en conversion por cotizacion (sin ecommerce por ahora).
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS v4
+- Deploy objetivo: Vercel
+
+## Objetivo actual (MVP)
+
+- Explicar el servicio de poleras personalizadas con estampado DTF.
+- Mostrar ejemplos visuales.
+- Entregar precio referencial (desde $11.990).
+- Generar confianza.
+- Llevar a contacto para cotizar.
+
+## Requisitos
+
+- Node.js 22+
+- npm 10+
+
+## Ejecutar en local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir en navegador: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Si el puerto 3000 esta ocupado:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev -- -p 3001
+```
 
-## Learn More
+## Configurar WhatsApp (sin hardcode)
 
-To learn more about Next.js, take a look at the following resources:
+1. Copia `.env.example` a `.env.local`.
+2. Configura tu numero de WhatsApp en formato internacional (solo digitos).
+3. Ajusta el mensaje prellenado.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ejemplo:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+NEXT_PUBLIC_WHATSAPP_NUMBER=56912345678
+NEXT_PUBLIC_WHATSAPP_MESSAGE=Hola Yivalte, quiero cotizar poleras personalizadas.
+```
 
-## Deploy on Vercel
+Comportamiento:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Con `NEXT_PUBLIC_WHATSAPP_NUMBER`:
+  - CTA principal abre `wa.me`.
+  - El formulario de contacto arma y abre el mensaje con los datos del cliente.
+- Sin `NEXT_PUBLIC_WHATSAPP_NUMBER`:
+  - CTA usa fallback interno a `#contacto`.
+  - El formulario avisa que falta configurar WhatsApp.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Variables en Vercel
+
+En `Project Settings > Environment Variables` agrega:
+
+- `NEXT_PUBLIC_WHATSAPP_NUMBER`
+  - Valor: tu numero en formato internacional sin `+`, sin espacios, sin guiones.
+  - Ejemplo Chile: `56912345678`
+- `NEXT_PUBLIC_WHATSAPP_MESSAGE`
+  - Valor recomendado: `Hola Yivalte, quiero cotizar poleras personalizadas.`
+
+Luego haz redeploy para aplicar cambios.
+
+## Scripts utiles
+
+```bash
+npm run dev     # desarrollo
+npm run lint    # lint
+npm run build   # build produccion
+npm run start   # correr build local
+```
+
+## Estructura principal
+
+```txt
+app/
+  layout.tsx
+  page.tsx
+  globals.css
+components/landing/
+  site-header.tsx
+  hero-section.tsx
+  how-it-works-section.tsx
+  examples-section.tsx
+  pricing-section.tsx
+  trust-section.tsx
+  faq-section.tsx
+  contact-section.tsx
+  contact-form.tsx
+  mobile-cta.tsx
+  footer-section.tsx
+data/
+  landing-content.ts
+types/
+  landing.ts
+public/images/examples/
+  placeholder.svg
+```
+
+## Notas
+
+- Integracion de WhatsApp se controla por variables de entorno.
+- Si aparece warning de hydration en desarrollo, revisa extensiones del navegador como Dark Reader.
+
+## Deploy en Vercel
+
+1. Conectar el repo en Vercel.
+2. Framework detectado: Next.js.
+3. Build command: `npm run build`.
+4. Output: default de Next.js.
+5. Configurar variables `NEXT_PUBLIC_WHATSAPP_*` en Project Settings > Environment Variables.
+
+## Roadmap corto
+
+1. Reemplazar placeholders por fotos reales.
+2. Agregar tracking basico de conversion.
+3. Refinar copy y pruebas de conversion.

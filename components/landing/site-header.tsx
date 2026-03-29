@@ -6,7 +6,13 @@ interface SiteHeaderProps {
   cta: CtaLink;
 }
 
+function isExternalLink(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 export function SiteHeader({ brandName, nav, cta }: SiteHeaderProps) {
+  const externalCta = isExternalLink(cta.href);
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[color:var(--bg)]/80 backdrop-blur">
       <div className="shell py-3">
@@ -17,7 +23,12 @@ export function SiteHeader({ brandName, nav, cta }: SiteHeaderProps) {
           >
             {brandName}
           </a>
-          <a href={cta.href} className="cta-primary px-4 py-2 text-xs sm:text-sm">
+          <a
+            href={cta.href}
+            className="cta-primary px-4 py-2 text-xs sm:text-sm"
+            target={externalCta ? "_blank" : undefined}
+            rel={externalCta ? "noopener noreferrer" : undefined}
+          >
             {cta.label}
           </a>
         </div>
