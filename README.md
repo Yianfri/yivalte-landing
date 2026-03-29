@@ -1,4 +1,4 @@
-# Yivalte Landing
+﻿# Yivalte Landing
 
 Landing page one-page para Yivalte, enfocada en conversion por cotizacion (sin ecommerce por ahora).
 
@@ -15,7 +15,7 @@ Landing page one-page para Yivalte, enfocada en conversion por cotizacion (sin e
 - Mostrar ejemplos visuales.
 - Entregar precio referencial (desde $11.990).
 - Generar confianza.
-- Llevar a contacto para cotizar (placeholder, sin backend aun).
+- Llevar a contacto para cotizar.
 
 ## Requisitos
 
@@ -36,6 +36,24 @@ Si el puerto 3000 esta ocupado:
 ```bash
 npm run dev -- -p 3001
 ```
+
+## Configurar WhatsApp (sin hardcode)
+
+1. Copia `.env.example` a `.env.local`.
+2. Configura tu numero de WhatsApp Business en formato internacional (solo digitos).
+3. Ajusta el mensaje prellenado.
+
+Ejemplo:
+
+```bash
+NEXT_PUBLIC_WHATSAPP_NUMBER=56912345678
+NEXT_PUBLIC_WHATSAPP_MESSAGE=Hola Yivalte, quiero cotizar poleras personalizadas.
+```
+
+Comportamiento:
+
+- Con `NEXT_PUBLIC_WHATSAPP_NUMBER`: CTA abre `wa.me` con mensaje prellenado.
+- Sin `NEXT_PUBLIC_WHATSAPP_NUMBER`: CTA usa fallback interno a `#contacto`.
 
 ## Scripts utiles
 
@@ -74,8 +92,7 @@ public/images/examples/
 
 ## Notas
 
-- El boton de contacto esta como placeholder (`href="#"`).
-- Integracion real de WhatsApp/formulario queda para la siguiente fase.
+- Integracion de WhatsApp se controla por variables de entorno.
 - Si aparece warning de hydration en desarrollo, revisa extensiones del navegador como Dark Reader.
 
 ## Deploy en Vercel
@@ -84,10 +101,10 @@ public/images/examples/
 2. Framework detectado: Next.js.
 3. Build command: `npm run build`.
 4. Output: default de Next.js.
+5. Configurar variables `NEXT_PUBLIC_WHATSAPP_*` en Project Settings > Environment Variables.
 
 ## Roadmap corto
 
-1. Integrar CTA de WhatsApp con mensaje prellenado.
-2. Reemplazar placeholders por fotos reales.
-3. Agregar tracking basico de conversion.
-4. Refinar copy y pruebas de conversion.
+1. Reemplazar placeholders por fotos reales.
+2. Agregar tracking basico de conversion.
+3. Refinar copy y pruebas de conversion.

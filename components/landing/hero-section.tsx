@@ -4,7 +4,14 @@ interface HeroSectionProps {
   content: HeroContent;
 }
 
+function isExternalLink(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 export function HeroSection({ content }: HeroSectionProps) {
+  const primaryExternal = isExternalLink(content.primaryCta.href);
+  const secondaryExternal = isExternalLink(content.secondaryCta.href);
+
   return (
     <section id="inicio" className="section-space">
       <div className="shell">
@@ -29,10 +36,20 @@ export function HeroSection({ content }: HeroSectionProps) {
           </ul>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href={content.primaryCta.href} className="cta-primary">
+            <a
+              href={content.primaryCta.href}
+              className="cta-primary"
+              target={primaryExternal ? "_blank" : undefined}
+              rel={primaryExternal ? "noopener noreferrer" : undefined}
+            >
               {content.primaryCta.label}
             </a>
-            <a href={content.secondaryCta.href} className="cta-secondary">
+            <a
+              href={content.secondaryCta.href}
+              className="cta-secondary"
+              target={secondaryExternal ? "_blank" : undefined}
+              rel={secondaryExternal ? "noopener noreferrer" : undefined}
+            >
               {content.secondaryCta.label}
             </a>
           </div>

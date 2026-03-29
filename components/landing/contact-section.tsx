@@ -4,7 +4,13 @@ interface ContactSectionProps {
   content: ContactContent;
 }
 
+function isExternalLink(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 export function ContactSection({ content }: ContactSectionProps) {
+  const externalCta = isExternalLink(content.buttonHref);
+
   return (
     <section id="contacto" className="section-space border-t border-white/10">
       <div className="shell">
@@ -15,7 +21,12 @@ export function ContactSection({ content }: ContactSectionProps) {
             <p className="section-copy">{content.description}</p>
 
             <div className="mt-8">
-              <a href={content.buttonHref} className="cta-primary">
+              <a
+                href={content.buttonHref}
+                className="cta-primary"
+                target={externalCta ? "_blank" : undefined}
+                rel={externalCta ? "noopener noreferrer" : undefined}
+              >
                 {content.buttonLabel}
               </a>
               <p className="mt-3 text-xs text-[color:var(--text-muted)]">

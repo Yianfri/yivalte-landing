@@ -4,7 +4,13 @@ interface PricingSectionProps {
   content: PricingContent;
 }
 
+function isExternalLink(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 export function PricingSection({ content }: PricingSectionProps) {
+  const externalCta = isExternalLink(content.cta.href);
+
   return (
     <section id="precios" className="section-space border-t border-white/10">
       <div className="shell">
@@ -22,7 +28,12 @@ export function PricingSection({ content }: PricingSectionProps) {
           ))}
         </div>
 
-        <a href={content.cta.href} className="cta-primary mt-8">
+        <a
+          href={content.cta.href}
+          className="cta-primary mt-8"
+          target={externalCta ? "_blank" : undefined}
+          rel={externalCta ? "noopener noreferrer" : undefined}
+        >
           {content.cta.label}
         </a>
         <p className="mt-3 text-xs text-[color:var(--text-muted)]">{content.disclaimer}</p>
